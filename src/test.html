@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    *{margin:0; padding:0;}
+    ul,li{list-style: none;}
+    #box{ width: 200px; height:90px; overflow:hidden; border:1px solid red;}
+
+    #div1, #div2, #div3 {
+        height: 800px;
+        width: 400px;
+        border: 2px solid black;
+    }
+
+    #scrollBody{
+        width: 900px;
+        height: 300px;
+        overflow: auto;
+    }
+
+</style>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
+<body>
+<div id="box">
+    <ul id="list1">
+        <li>星期一</li>
+        <li>星期二</li>
+        <li>星期三</li>
+        <li>星期四</li>
+        <li>星期五</li>
+        <li>星期六</li>
+        <li>星期天</li>
+    </ul>
+    <ul id="list2"></ul>
+</div>
+
+<div id="scrollBox">
+    <p>to div1</p>
+    <p>to div2</p>
+    <p>to div3</p>
+    <button id="btn">click</button>
+</div>
+<div id="scrollBody">
+    <div id="scrollEle">
+        <div id="div1">div1</div>
+        <div id="div2">div2</div>
+        <div id="div3">div3</div>
+    </div>
+</div>
+
+<script type="text/javascript">
+	var box=document.getElementById("box");
+	var l1=document.getElementById("list1");
+	var l2=document.getElementById("list2");
+	l2.innerHTML=l1.innerHTML;//克隆list1的数据，使得list2和list1的数据一样
+	function scrollup(){
+		if(box.scrollTop>=l1.offsetHeight){ //滚动条距离顶部的值恰好等于list1的高度时，达到滚动临界点，此时将让scrollTop=0,让list1回到初始位置，实现无缝滚动
+			box.scrollTop=0;
+		}else{
+			box.scrollTop++;
+		}
+	}
+
+	var scrollMove=setInterval(scrollup,100);//数值越大，滚动速度越慢
+
+	//鼠标经过时，滚动停止
+	box.onmouseover=function(){
+		clearInterval(scrollMove)
+	}
+
+	//鼠标离开时，滚动继续
+	box.onmouseout=function(){
+		scrollMove=setInterval(scrollup,30);
+	}
+
+	$("#btn").click(function () {
+        console.log($("#div1").offset().top);
+		console.log($("#div2").offset().top);
+		console.log($("#div3").offset().top);
+	})
+</script>
+</body>
+
+</html>
